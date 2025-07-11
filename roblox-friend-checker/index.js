@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Favicon fallback to prevent 502 errors
-app.get("/favicon.ico", (req, res) => res.status(204).end());
+// ✅ Serve real favicon.ico
+app.use("/favicon.ico", express.static(path.join(__dirname, "favicon.ico")));
 
 // Serve the frontend
 app.get("/", (req, res) => {
