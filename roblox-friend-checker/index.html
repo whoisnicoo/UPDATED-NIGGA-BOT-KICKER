@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roblox Friend Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    input, button {
+      padding: 0.5em;
+      font-size: 1em;
+    }
+    #result {
+      margin-top: 1em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Roblox Friend Checker</h1>
+  <p>Enter a Roblox User ID to check how many friends they have:</p>
+  <input type="text" id="userIdInput" placeholder="Enter User ID" />
+  <button onclick="checkFriends()">Check Friends</button>
+  <div id="result"></div>
+
+  <script>
+    async function checkFriends() {
+      const userId = document.getElementById("userIdInput").value.trim();
+      const resultEl = document.getElementById("result");
+      resultEl.textContent = "Checking...";
+
+      if (!/^[0-9]+$/.test(userId)) {
+        resultEl.textContent = "❌ Please enter a valid numeric User ID.";
+        return;
+      }
+
+      try {
+        const response = await fetch("/check-friends", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          resultEl.textContent = `❌ ${data.error || "Unknown error"}`;
+        } else {
+          resultEl.textContent = `✅ User has ${data.friends} friends.`;
+        }
+      } catch (err) {
+        resultEl.textContent = "❌ Failed to fetch friend data.";
+      }
+    }
+  </script>
+</body>
+</html>
