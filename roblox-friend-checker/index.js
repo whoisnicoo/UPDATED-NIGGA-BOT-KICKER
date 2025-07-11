@@ -10,12 +10,12 @@ app.use(express.json());
 // ✅ Serve real favicon.ico
 app.use("/favicon.ico", express.static(path.join(__dirname, "favicon.ico")));
 
-// Serve the frontend
+// ✅ Optional: root response to verify app is running
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.send("✅ Roblox Friend Checker backend is running.");
 });
 
-// Roblox POST call
+// ✅ Roblox POST call used by Studio script
 app.post("/check-friends", async (req, res) => {
   const userId = req.body.userId;
 
@@ -41,7 +41,7 @@ app.post("/check-friends", async (req, res) => {
   }
 });
 
-// Must bind to correct port for Railway
+// ✅ Correct for Render / Railway / Replit
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
