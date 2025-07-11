@@ -1,4 +1,3 @@
-
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
@@ -7,6 +6,9 @@ const path = require("path");
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ✅ Favicon fallback to prevent 502 errors
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 // Serve the frontend
 app.get("/", (req, res) => {
